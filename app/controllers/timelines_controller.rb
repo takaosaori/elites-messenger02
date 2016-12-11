@@ -10,24 +10,41 @@ class TimelinesController < ApplicationController
       # 返信時は返信のタイムライン情報を取得
       @reply_timeline = Timeline.find(params[:reply_id])
     end
-    
   end
   
   def create
     timeline = Timeline.new
     timeline.attributes = input_message_param
     timeline.user_id = current_user.id
+    
     if timeline.valid? # バリデーションチェック
       timeline.save!
+      # ここにHTMLとjsonの場合の処理を記載します。
+      respond_to do |format|
+        # HTMLの場合
+        format.html do
+          # 正常だった場合、indexにリダイレクトさせます
+          redirect_to action: :index
+        end
+        # jsonの場合
+        format.json do
+          html = render_to_string partial: 'timelines/timeline', layout: false, formats: :html, locals: { t: timeline }
+          render json: {timeline: html}   
+        end
+      end
     else
-      flash[:alert] = timeline.errors.full_messages
-    end
-    unless request.format.json?
-      redirect_to action: :index
-    else
-      # ajaxの場合のレスポンス
-      html = render_to_string partial: 'timelines/timeline', layout: false, formats: :html, locals: { t: timeline }
-      render json: {timeline: html}
+      respond_to do |format|
+        # HTMLの場合
+        format.html do
+          flash[:alert] = timeline.errors.full_messages
+          redirect_to action: :index
+        end
+        format.json do
+          # timeline.errors.full_messagesの中にエラーメッセージが設定されているので
+          # json 形式でerrorを返します
+          render json: {error: timeline.errors.full_messages.join(",")}
+        end
+      end
     end
   end
   
