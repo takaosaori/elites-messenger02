@@ -12,5 +12,7 @@ class User < ActiveRecord::Base
   validates :agreement, presence: true, acceptance: {accept: true}
   
   has_many :timelines
+  
+  has_many :likes
 
 end

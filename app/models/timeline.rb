@@ -1,7 +1,13 @@
 class Timeline < ActiveRecord::Base
     belongs_to :user
     
-    belongs_to :parent,  class_name: 'Timeline', foreign_key: 'reply_id'
+    has_many :likes
+    
+    def like_user(user)
+      likes.find_by(user_id: user)
+    end
+    
+    belongs_to :parent,  class_name: 'Timeline', foreign_key: 'reply_id' 'lile_id'
     
     has_many   :replies, class_name: 'Timeline', foreign_key: 'reply_id', dependent: :destroy
     
@@ -16,5 +22,6 @@ class Timeline < ActiveRecord::Base
      # 返信でないデータを取得
      where(reply_id: nil)
     end
+    
     
 end
