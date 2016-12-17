@@ -15,7 +15,7 @@ $(function(){
       if(json.timeline) {
         $('div.timeline').prepend($(json.timeline));
       } else if (json.error) {
-        $('div.alert').prepend("Error Message!!");
+        $('div.alert').prepend(json.error);
       }
       
     }
