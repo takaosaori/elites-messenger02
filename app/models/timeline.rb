@@ -7,8 +7,6 @@ class Timeline < ActiveRecord::Base
       likes.find_by(user_id: user)
     end
     
-    belongs_to :parent,  class_name: 'Timeline', foreign_key: 'reply_id' 'lile_id'
-    
     has_many   :replies, class_name: 'Timeline', foreign_key: 'reply_id', dependent: :destroy
     
     validates :message, presence: true, allow_blank: false, length: { maximum: 140 }

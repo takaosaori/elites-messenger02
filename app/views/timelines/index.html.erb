@@ -19,7 +19,7 @@
         </div>
         <div class="post">
           <!--** 編集中は編集をキャンセルするボタンを表示 **-->
-          <% if @input_message.persisted? || @reply_timeline %>
+          <% if @input_message.persisted? || @reply_timeline >
             <%= link_to root_path do %>
               <%= button_tag 'Cancel', class: 'btn btn-default' %>
             <% end %>
