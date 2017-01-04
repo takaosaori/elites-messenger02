@@ -5,7 +5,6 @@ class TimelinesController < ApplicationController
     @input_message = params[:id] ? Timeline.find(params[:id]) : Timeline.new
     @timeline = Timeline.includes(:user).not_reply.user_filter(params[:filter_user_id]).order('updated_at DESC')
     @users = User.all
-    # @likes = Like.where(timeline_id: params[:id])
     
     if params[:reply_id]
       # 返信時は返信のタイムライン情報を取得
