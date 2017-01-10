@@ -26,7 +26,16 @@
     <%= link_to root_path(reply_id: t.id) do %>
       <%= button_tag 'Re', class: 'btn btn-info' %>
     <% end %>
+
+    <%= link_to timeline_likes_path(timeline_id: t.id), method: :post ,id: "like-button" do %>
+      <%= button_tag 'Like', class: 'btn btn-warning' %>
+       <span id="like-sum">
+        <%= t.likes.count %>
+      </span>
+    <% end %>
   <% end %>
+
+    
 </div>
 <% t.replies.each do |r| %>
   <%= render 'timelines/timeline', t: r, is_reply: true %>

@@ -11,7 +11,13 @@ $(function(){
     // Ajaxレスポンス
     if ( status == 'success') {
       var json = JSON.parse(data.responseText);
-      $('div.timeline').prepend($(json.timeline));
+      // ここでifでtimelineとerrorの処理を分岐させます
+      if(json.timeline) {
+        $('div.timeline').prepend($(json.timeline));
+      } else if (json.error) {
+        $('div.alert').prepend(json.error);
+      }
+      
     }
   });
 });

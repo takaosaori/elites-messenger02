@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   
   root to: 'timelines#index'
-  
 
   devise_for :users
   
@@ -9,6 +8,7 @@ Rails.application.routes.draw do
     collection do
       post 'filter_by_user'
     end
+    resources :likes, only: [:create, :destroy]
   end
   
   if Rails.env.development?
